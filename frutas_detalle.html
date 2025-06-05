@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frutas y Precios - La Verdulería de Beto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            padding-top: 4rem; /* Ajusta este valor según la altura real de tu header */
+        }
+        /* Estilos para el modal del carrito */
+        .modal {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4); /* Fondo semi-transparente */
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            position: relative;
+            animation: fadeIn 0.3s;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+    <header class="bg-green-700 text-white p-4 shadow-lg rounded-b-lg fixed top-0 w-full z-50">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <a href="./index.html" class="flex items-center space-x-2 cursor-pointer hover:text-green-200 transition duration-300">
+                <img src="./Multimedia/Teto_pear.png" alt="Logo de La Verdulería de Teto" class="h-12 w-12 object-cover rounded-full">
+                <h1 class="text-4xl font-bold mb-2 md:mb-0">La Verdulería de Teto</h1>
+            </a>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="./index.html#inicio" class="hover:text-green-200 transition duration-300 text-lg">Inicio</a></li>
+                    <li><a href="./index.html#productos" class="hover:text-green-200 transition duration-300 text-lg">Productos</a></li>
+                    <li><a href="./contacto_detalle.html" class="hover:text-green-200 transition duration-300 text-lg">Contacto</a></li>
+                    <li><a href="./index.html#reseñas" class="hover:text-green-200 transition duration-300 text-lg">Reseñas</a></li>
+                    <li><a href="./index.html#multimedia" class="hover:text-green-200 transition duration-300 text-lg">Multimedia</a></li>
+                    <!-- Botón del Carrito -->
+                    <li>
+                        <button onclick="openCartModal()" class="flex items-center space-x-1 hover:text-green-200 transition duration-300 text-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L22 4H5.5"/></svg>
+                            <span id="cart-count" class="bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1">0</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section id="frutas-precios" class="frutas-precios bg-white p-8 rounded-lg shadow-md mb-8">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0">
+                <h2 class="text-3xl font-bold text-green-700">Frutas Frescas y Precios por KG</h2>
+                <div class="flex items-center space-x-2">
+                    <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="Buscar fruta..." class="w-full sm:w-auto p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                    <select onchange="sortProducts(this.value)" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">
+                        <option value="">Ordenar por...</option>
+                        <option value="price-asc">Precio: Menor a Mayor</option>
+                        <option value="price-desc">Precio: Mayor a Menor</option>
+                        <option value="name-asc">Nombre: A - Z</option>
+                        <option value="name-desc">Nombre: Z - A</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="product-list">
+                <!-- Fruta 1: Manzanas -->
+                <div class="card bg-yellow-50 p-6 rounded-lg shadow-md text-center" data-name="Manzanas" data-price="2500">
+                    <h3 class="text-2xl font-semibold text-yellow-800 mb-3">Manzanas</h3>
+                    <img src="./Multimedia/Manzana.png" alt="Manzanas" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-yellow-300">
+                    <p class="text-gray-700 text-lg mb-2">Precio: $2.500/kg</p>
+                    <p class="text-gray-600">Frescas y crujientes, ideales para cualquier momento.</p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <input type="number" id="manzanas-qty" value="1" min="1" class="w-20 p-2 border rounded-md text-center">
+                        <button onclick="addToCart('Manzanas', 2500, 'manzanas-qty')" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Añadir al Carrito</button>
+                    </div>
+                </div>
+                <!-- Fruta 2: Peras -->
+                <div class="card bg-yellow-50 p-6 rounded-lg shadow-md text-center" data-name="Peras" data-price="2200">
+                    <h3 class="text-2xl font-semibold text-yellow-800 mb-3">Peras</h3>
+                    <img src="./Multimedia/Teto_pear.png" alt="Peras" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-yellow-300">
+                    <p class="text-gray-700 text-lg mb-2">Precio: $2.200/kg</p>
+                    <p class="text-gray-600">Jugosas y dulces, perfectas para postres.</p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <input type="number" id="peras-qty" value="1" min="1" class="w-20 p-2 border rounded-md text-center">
+                        <button onclick="addToCart('Peras', 2200, 'peras-qty')" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Añadir al Carrito</button>
+                    </div>
+                </div>
+                <!-- Fruta 3: Uvas -->
+                <div class="card bg-yellow-50 p-6 rounded-lg shadow-md text-center" data-name="Uvas" data-price="3000">
+                    <h3 class="text-2xl font-semibold text-yellow-800 mb-3">Uvas</h3>
+                    <img src="./Multimedia/Teto_grape.png" alt="Uvas" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-yellow-300">
+                    <p class="text-gray-700 text-lg mb-2">Precio: $3.000/kg</p>
+                    <p class="text-gray-600">Variedad de uvas, ideales para picar o acompañar.</p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <input type="number" id="uvas-qty" value="1" min="1" class="w-20 p-2 border rounded-md text-center">
+                        <button onclick="addToCart('Uvas', 3000, 'uvas-qty')" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Añadir al Carrito</button>
+                    </div>
+                </div>
+                <!-- Fruta 4: Duraznos -->
+                <div class="card bg-yellow-50 p-6 rounded-lg shadow-md text-center" data-name="Duraznos" data-price="2800">
+                    <h3 class="text-2xl font-semibold text-yellow-800 mb-3">Duraznos</h3>
+                    <img src="./Multimedia/Teto_peach.png" alt="Duraznos" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-yellow-300">
+                    <p class="text-gray-700 text-lg mb-2">Precio: $2.800/kg</p>
+                    <p class="text-gray-600">Dulces y aromáticos, perfectos para el verano.</p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <input type="number" id="duraznos-qty" value="1" min="1" class="w-20 p-2 border rounded-md text-center">
+                        <button onclick="addToCart('Duraznos', 2800, 'duraznos-qty')" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Añadir al Carrito</button>
+                    </div>
+                </div>
+                <!-- Fruta 5: Cerezas -->
+                <div class="card bg-yellow-50 p-6 rounded-lg shadow-md text-center" data-name="Cerezas" data-price="4500">
+                    <h3 class="text-2xl font-semibold text-yellow-800 mb-3">Cerezas</h3>
+                    <img src="./Multimedia/Teto_cherry.png" alt="Cerezas" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-yellow-300">
+                    <p class="text-gray-700 text-lg mb-2">Precio: $4.500/kg</p>
+                    <p class="text-gray-600">Pequeñas y deliciosas, un verdadero manjar.</p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <input type="number" id="cerezas-qty" value="1" min="1" class="w-20 p-2 border rounded-md text-center">
+                        <button onclick="addToCart('Cerezas', 4500, 'cerezas-qty')" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Añadir al Carrito</button>
+                    </div>
+                </div>
+                <!-- Fruta 6: Kiwis -->
+                <div class="card bg-yellow-50 p-6 rounded-lg shadow-md text-center" data-name="Kiwis" data-price="3200">
+                    <h3 class="text-2xl font-semibold text-yellow-800 mb-3">Kiwis</h3>
+                    <img src="./Multimedia/Teto_kiwi.png" alt="Kiwis" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-yellow-300">
+                    <p class="text-gray-700 text-lg mb-2">Precio: $3.200/kg</p>
+                    <p class="text-gray-600">Refrescantes y llenos de vitamina C.</p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <input type="number" id="kiwis-qty" value="1" min="1" class="w-20 p-2 border rounded-md text-center">
+                        <button onclick="addToCart('Kiwis', 3200, 'kiwis-qty')" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Añadir al Carrito</button>
+                    </div>
+                </div>
+                <!-- Fruta 7: Naranjas -->
+                <div class="card bg-yellow-50 p-6 rounded-lg shadow-md text-center" data-name="Naranjas" data-price="2000">
+                    <h3 class="text-2xl font-semibold text-yellow-800 mb-3">Naranjas</h3>
+                    <img src="./Multimedia/Teto_orange.png" alt="Naranjas" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-yellow-300">
+                    <p class="text-gray-700 text-lg mb-2">Precio: $2.000/kg</p>
+                    <p class="text-gray-600">Jugosas y llenas de vitamina C.</p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <input type="number" id="naranjas-qty" value="1" min="1" class="w-20 p-2 border rounded-md text-center">
+                        <button onclick="addToCart('Naranjas', 2000, 'naranjas-qty')" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Añadir al Carrito</button>
+                    </div>
+                </div>
+                <!-- Fruta 8: Sandías -->
+                <div class="card bg-yellow-50 p-6 rounded-lg shadow-md text-center" data-name="Sandías" data-price="1800">
+                    <h3 class="text-2xl font-semibold text-yellow-800 mb-3">Sandías</h3>
+                    <img src="./Multimedia/Teto_watermelon.png" alt="Sandías" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-yellow-300">
+                    <p class="text-gray-700 text-lg mb-2">Precio: $1.800/kg</p>
+                    <p class="text-gray-600">Refrescantes y dulces, ideales para el verano.</p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <input type="number" id="sandias-qty" value="1" min="1" class="w-20 p-2 border rounded-md text-center">
+                        <button onclick="addToCart('Sandías', 1800, 'sandias-qty')" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Añadir al Carrito</button>
+                    </div>
+                </div>
+                <!-- Fruta 9: Melones -->
+                <div class="card bg-yellow-50 p-6 rounded-lg shadow-md text-center" data-name="Melones" data-price="1900">
+                    <h3 class="text-2xl font-semibold text-yellow-800 mb-3">Melones</h3>
+                    <img src="./Multimedia/Teto_melon.png" alt="Melones" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-yellow-300">
+                    <p class="text-gray-700 text-lg mb-2">Precio: $1.900/kg</p>
+                    <p class="text-600">Aromáticos y de sabor suave, perfectos para postres.</p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <input type="number" id="melones-qty" value="1" min="1" class="w-20 p-2 border rounded-md text-center">
+                        <button onclick="addToCart('Melones', 2300, 'melones-qty')" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Añadir al Carrito</button>
+                    </div>
+                </div>
+                <!-- Fruta 10: Bananas -->
+                <div class="card bg-yellow-50 p-6 rounded-lg shadow-md text-center" data-name="Bananas" data-price="1500">
+                    <h3 class="text-2xl font-semibold text-yellow-800 mb-3">Bananas</h3>
+                    <img src="./Multimedia/Teto_banana.png" alt="Bananas" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-yellow-300">
+                    <p class="text-gray-700 text-lg mb-2">Precio: $1.500/kg</p>
+                    <p class="text-gray-600">Energéticas y deliciosas, ideales para cualquier momento.</p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <input type="number" id="bananas-qty" value="1" min="1" class="w-20 p-2 border rounded-md text-center">
+                        <button onclick="addToCart('Bananas', 1500, 'bananas-qty')" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Añadir al Carrito</button>
+                    </div>
+                </div>
+                <!-- Fruta 11: Frutillas -->
+                <div class="card bg-yellow-50 p-6 rounded-lg shadow-md text-center" data-name="Frutillas" data-price="3500">
+                    <h3 class="text-2xl font-semibold text-yellow-800 mb-3">Frutillas</h3>
+                    <img src="./Multimedia/Teto_strawberry.png" alt="Frutillas" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-yellow-300">
+                    <p class="text-gray-700 text-lg mb-2">Precio: $3.500/kg</p>
+                    <p class="text-gray-600">Dulces y jugosas, perfectas para postres o solas.</p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <input type="number" id="frutillas-qty" value="1" min="1" class="w-20 p-2 border rounded-md text-center">
+                        <button onclick="addToCart('Frutillas', 3500, 'frutillas-qty')" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Añadir al Carrito</button>
+                    </div>
+                </div>
+                <!-- Fruta 12: Limones -->
+                <div class="card bg-yellow-50 p-6 rounded-lg shadow-md text-center" data-name="Limones" data-price="1200">
+                    <h3 class="text-2xl font-semibold text-yellow-800 mb-3">Limones</h3>
+                    <img src="./Multimedia/Teto_lemon.png" alt="Limones" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-yellow-300">
+                    <p class="text-gray-700 text-lg mb-2">Precio: $1.200/kg</p>
+                    <p class="text-gray-600">Ácidos y refrescantes, ideales para bebidas y comidas.</p>
+                    <div class="mt-4 flex items-center justify-center space-x-2">
+                        <input type="number" id="limones-qty" value="1" min="1" class="w-20 p-2 border rounded-md text-center">
+                        <button onclick="addToCart('Limones', 1200, 'limones-qty')" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Añadir al Carrito</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-green-700 text-white p-4 text-center mt-8 rounded-t-lg">
+        <p>© 2025 La Verdulería de Teto. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Modal del Carrito -->
+    <div id="cart-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeCartModal()">&times;</span>
+            <h2 class="text-2xl font-bold text-green-700 mb-4">Tu Carrito</h2>
+            <div id="cart-items" class="mb-4">
+                <!-- Los ítems del carrito se renderizarán aquí -->
+            </div>
+            <div id="cart-total" class="text-xl font-bold text-gray-800 mb-4">
+                Total: $0
+            </div>
+            <button onclick="clearCart()" class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition duration-300 shadow-md">Vaciar Carrito</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = []; // Array para almacenar los ítems del carrito
+
+        // Cargar carrito desde localStorage al cargar la página
+        window.onload = function() {
+            loadCart();
+            updateCartDisplay();
+        };
+
+        function loadCart() {
+            const storedCart = localStorage.getItem('shoppingCart');
+            if (storedCart) {
+                cart = JSON.parse(storedCart);
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('shoppingCart', JSON.stringify(cart));
+        }
+
+        function addToCart(name, price, quantityId) {
+            const quantityInput = document.getElementById(quantityId);
+            let quantity = parseInt(quantityInput.value);
+
+            if (isNaN(quantity) || quantity <= 0) {
+                alert('Por favor, introduce una cantidad válida.'); // Considerar un modal personalizado para una mejor UX
+                return;
+            }
+
+            const existingItemIndex = cart.findIndex(item => item.name === name);
+
+            if (existingItemIndex > -1) {
+                cart[existingItemIndex].quantity += quantity;
+            } else {
+                cart.push({ name: name, price: price, quantity: quantity });
+            }
+
+            saveCart();
+            updateCartDisplay();
+        }
+
+        // Función para eliminar una cantidad específica de un producto del carrito
+        function removeQuantityFromCart(itemName, quantityInputId) {
+            const quantityInput = document.getElementById(quantityInputId);
+            let quantityToRemove = parseInt(quantityInput.value);
+
+            if (isNaN(quantityToRemove) || quantityToRemove <= 0) {
+                alert('Por favor, introduce una cantidad válida para eliminar.');
+                return;
+            }
+
+            const itemIndex = cart.findIndex(item => item.name === itemName);
+
+            if (itemIndex > -1) {
+                if (cart[itemIndex].quantity <= quantityToRemove) {
+                    // Si la cantidad a eliminar es mayor o igual a la cantidad actual, eliminar el artículo completo
+                    cart.splice(itemIndex, 1);
+                } else {
+                    // De lo contrario, restar la cantidad especificada
+                    cart[itemIndex].quantity -= quantityToRemove;
+                }
+                saveCart();
+                updateCartDisplay();
+            } else {
+                alert('El producto no se encuentra en el carrito.');
+            }
+        }
+
+        function updateCartDisplay() {
+            const cartCountElement = document.getElementById('cart-count');
+            const cartItemsElement = document.getElementById('cart-items');
+            const cartTotalElement = document.getElementById('cart-total');
+
+            let totalItems = 0;
+            let totalPrice = 0;
+            cartItemsElement.innerHTML = ''; // Limpiar el contenido actual del carrito
+
+            if (cart.length === 0) {
+                cartItemsElement.innerHTML = '<p class="text-gray-600">El carrito está vacío.</p>';
+            } else {
+                cart.forEach((item, index) => {
+                    // Generar un ID único para el campo de cantidad a eliminar de cada artículo
+                    const removeQuantityInputId = `remove-${item.name.replace(/\s/g, '')}-qty`;
+
+                    const itemElement = document.createElement('div');
+                    itemElement.classList.add('flex', 'flex-col', 'sm:flex-row', 'justify-between', 'items-center', 'py-2', 'border-b', 'border-gray-200');
+                    itemElement.innerHTML = `
+                        <span class="text-gray-700 mb-2 sm:mb-0">${item.name} (${item.quantity} kg)</span>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-semibold">$${(item.price * item.quantity).toLocaleString('es-AR')}</span>
+                            <input type="number" id="${removeQuantityInputId}" value="1" min="1" max="${item.quantity}" class="w-16 p-1 border rounded-md text-center text-gray-800">
+                            <button onclick="removeQuantityFromCart('${item.name}', '${removeQuantityInputId}')" class="bg-red-400 text-white px-2 py-1 rounded-full text-xs hover:bg-red-500 transition duration-300">Eliminar</button>
+                        </div>
+                    `;
+                    cartItemsElement.appendChild(itemElement);
+                    totalItems += item.quantity;
+                    totalPrice += item.price * item.quantity;
+                });
+            }
+
+            cartCountElement.textContent = totalItems;
+            cartTotalElement.textContent = `Total: $${totalPrice.toLocaleString('es-AR')}`;
+        }
+
+        function openCartModal() {
+            const cartModal = document.getElementById('cart-modal');
+            cartModal.style.display = 'flex'; // Mostrar el modal
+            updateCartDisplay(); // Asegurarse de que la visualización se actualice cuando se abre manualmente
+        }
+
+        function closeCartModal() {
+            const cartModal = document.getElementById('cart-modal');
+            cartModal.style.display = 'none'; // Ocultar el modal
+        }
+
+        function clearCart() {
+            cart = [];
+            saveCart();
+            updateCartDisplay();
+            // closeCartModal(); // Opcional: cerrar el modal después de vaciarlo, actualmente permanece abierto
+        }
+
+        // Función para ordenar productos
+        function sortProducts(order) {
+            const productList = document.getElementById('product-list');
+            let products = Array.from(productList.children);
+
+            products.sort((a, b) => {
+                const nameA = a.dataset.name.toLowerCase();
+                const nameB = b.dataset.name.toLowerCase();
+                const priceA = parseFloat(a.dataset.price);
+                const priceB = parseFloat(b.dataset.price);
+
+                if (order === 'price-asc') {
+                    return priceA - priceB; // Ordenar ascendente por precio
+                } else if (order === 'price-desc') {
+                    return priceB - priceA; // Ordenar descendente por precio
+                } else if (order === 'name-asc') {
+                    return nameA.localeCompare(nameB); // Ordenar ascendente por nombre
+                } else if (order === 'name-desc') {
+                    return nameB.localeCompare(nameA); // Ordenar descendente por nombre
+                }
+                return 0; // No ordenar si el orden no está especificado o es inválido
+            });
+
+            // Limpiar la lista actual y añadir los productos ordenados
+            productList.innerHTML = '';
+            products.forEach(product => productList.appendChild(product));
+            // Después de ordenar, volver a aplicar el filtro actual si lo hay
+            filterProducts();
+        }
+
+        // Función para filtrar productos por entrada de búsqueda
+        function filterProducts() {
+            const searchInput = document.getElementById('search-input');
+            const filter = searchInput.value.toLowerCase();
+            const productList = document.getElementById('product-list');
+            const products = productList.children;
+
+            for (let i = 0; i < products.length; i++) {
+                const product = products[i];
+                const productName = product.dataset.name.toLowerCase();
+                if (productName.includes(filter)) {
+                    product.style.display = '';
+                } else {
+                    product.style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
