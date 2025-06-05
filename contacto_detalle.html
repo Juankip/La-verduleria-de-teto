@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contáctanos - La Verdulería de Beto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            padding-top: 4rem; /* Ajusta este valor según la altura real de tu header */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+    <header class="bg-green-700 text-white p-4 shadow-lg rounded-b-lg fixed top-0 w-full z-50">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2 cursor-pointer hover:text-green-200 transition duration-300">
+                <img src="./Multimedia/Teto_pear.png" alt="Logo de La Verdulería de Teto" class="h-12 w-12 object-cover rounded-full">
+                <h1 class="text-4xl font-bold mb-2 md:mb-0">La Verdulería de Teto</h1>
+            </a>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="index.html" class="hover:text-green-200 transition duration-300 text-lg">Inicio</a></li>
+                    <li><a href="index.html#productos" class="hover:text-green-200 transition duration-300 text-lg">Productos</a></li>
+                    <li><a href="./contacto_detalle.html" class="hover:text-green-200 transition duration-300 text-lg">Contacto</a></li>
+                    <li><a href="index.html#reseñas" class="hover:text-green-200 transition duration-300 text-lg">Reseñas</a></li>
+                    <li><a href="index.html#multimedia" class="hover:text-green-200 transition duration-300 text-lg">Multimedia</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section id="contacto" class="contacto bg-white p-8 rounded-lg shadow-md mb-8">
+            <h2 class="text-3xl font-bold text-green-700 mb-6 text-center">Contáctanos</h2>
+            <div>
+                <p class="text-lg text-gray-600 mb-6 text-center">Déjanos un mensaje y te responderemos a la brevedad.</p>
+                <form action="https://formspree.io/f/xeogwlrw" method="POST" class="max-w-xl mx-auto">
+                    <div class="mb-4">
+                        <label for="nombre" class="block text-gray-700 text-sm font-bold mb-2">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" required
+                               class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Correo Electrónico:</label>
+                        <input type="email" id="email" name="email" required
+                               class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div class="mb-6">
+                        <label for="mensaje" class="block text-gray-700 text-sm font-bold mb-2">Mensaje:</label>
+                        <textarea id="mensaje" name="mensaje" rows="5" required
+                                  class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 resize-y"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit"
+                                class="bg-green-600 text-white font-bold py-3 px-8 rounded-full hover:bg-green-700 transition duration-300 shadow-lg transform hover:scale-105">
+                            Enviar Mensaje
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-green-700 text-white p-4 text-center mt-8 rounded-t-lg">
+        <p>© 2025 La Verdulería Teto. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
