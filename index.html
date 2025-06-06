@@ -183,11 +183,22 @@
             <span class="close-button" onclick="closeCartModal()">×</span>
             <h2 class="text-2xl font-bold text-green-700 mb-4">Tu Carrito</h2>
             <div id="cart-items" class="mb-4">
-                <!-- Los ítems del carrito se renderizarán aquí -->
-            </div>
+                </div>
             <div id="cart-total" class="text-xl font-bold text-gray-800 mb-4">
                 Total: $0
             </div>
+
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Método de Pago</h3>
+                <select id="payment-method" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                    <option value="">Selecciona un método de pago</option>
+                    <option value="credit-card">Tarjeta de Crédito</option>
+                    <option value="debit-card">Tarjeta de Débito</option>
+                    <option value="mercado-pago">Mercado Pago</option>
+                    <option value="cash">Efectivo</option>
+                </select>
+            </div>
+            <button onclick="checkout()" class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md mr-2">Pagar</button>
             <button onclick="clearCart()" class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition duration-300 shadow-md">Vaciar Carrito</button>
         </div>
     </div>
