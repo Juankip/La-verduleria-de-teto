@@ -9,9 +9,6 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-        }
-        /* Estilo adicional para el cuerpo para evitar que el contenido quede oculto detrás del header fijo */
-        body {
             padding-top: 4rem; /* Ajusta este valor según la altura real de tu header */
         }
         /* Estilos para el modal del carrito */
@@ -56,13 +53,35 @@
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        /* Estilos adicionales para impresión */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .modal-content, .modal-content * {
+                visibility: visible;
+            }
+            .modal-content {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100% !important;
+                max-width: none !important;
+                box-shadow: none;
+                border: none;
+                padding: 0;
+                margin: 0;
+            }
+            .hide-on-print {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased">
     <header class="bg-green-700 text-white p-4 shadow-lg rounded-b-lg fixed top-0 w-full z-50">
         <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
             <a href="#inicio" class="flex items-center space-x-2 cursor-pointer hover:text-green-200 transition duration-300">
-                <!-- Logo de La Verdulería de Beto, no circular -->
                 <img src="./Multimedia/Teto_pear.png" alt="Logo de La Verdulería de Teto" class="h-12 w-12 object-cover rounded-full">
                 <h1 class="text-4xl font-bold mb-2 md:mb-0">La Verdulería de Teto</h1>
             </a>
@@ -70,11 +89,9 @@
                 <ul class="flex space-x-4">
                     <li><a href="#inicio" class="hover:text-green-200 transition duration-300 text-lg">Inicio</a></li>
                     <li><a href="./frutas_detalle.html" class="hover:text-green-200 transition duration-300 text-lg">Productos</a></li>
-                    <!-- Se ha eliminado el enlace "Frutas y Precios" -->
                     <li><a href="./contacto_detalle.html" class="hover:text-green-200 transition duration-300 text-lg">Contacto</a></li>
                     <li><a href="#reseñas" class="hover:text-green-200 transition duration-300 text-lg">Reseñas</a></li>
                     <li><a href="#multimedia" class="hover:text-green-200 transition duration-300 text-lg">Multimedia</a></li>
-                    <!-- Botón del Carrito -->
                     <li>
                         <button onclick="openCartModal()" class="flex items-center space-x-1 hover:text-green-200 transition duration-300 text-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L22 4H5.5"/></svg>
@@ -177,29 +194,35 @@
         <p>© 2025 La Verdulería Teto. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- Modal del Carrito -->
     <div id="cart-modal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeCartModal()">×</span>
-            <h2 class="text-2xl font-bold text-green-700 mb-4">Tu Carrito</h2>
-            <div id="cart-items" class="mb-4">
+        <div class="modal-content" id="modal-content"> <span class="close-button hide-on-print" onclick="closeCartModal()">×</span> <div id="cart-view-content">
+                <h2 class="text-2xl font-bold text-green-700 mb-4">Tu Carrito</h2>
+                <div id="cart-items" class="mb-4">
+                    </div>
+                <div id="cart-total" class="text-xl font-bold text-gray-800 mb-4">
+                    Total: $0
                 </div>
-            <div id="cart-total" class="text-xl font-bold text-gray-800 mb-4">
-                Total: $0
-            </div>
 
-            <div class="mb-6">
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">Método de Pago</h3>
-                <select id="payment-method" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
-                    <option value="">Selecciona un método de pago</option>
-                    <option value="credit-card">Tarjeta de Crédito</option>
-                    <option value="debit-card">Tarjeta de Débito</option>
-                    <option value="mercado-pago">Mercado Pago</option>
-                    <option value="cash">Efectivo</option>
-                </select>
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Correo Electrónico (opcional para tu registro)</h3>
+                    <input type="email" id="customer-email" placeholder="Introduce tu email" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Método de Pago</h3>
+                    <select id="payment-method" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                        <option value="">Selecciona un método de pago</option>
+                        <option value="credit-card">Tarjeta de Crédito</option>
+                        <option value="debit-card">Tarjeta de Débito</option>
+                        <option value="mercado-pago">Mercado Pago</option>
+                        <option value="cash">Efectivo</option>
+                    </select>
+                </div>
+                <button onclick="checkout()" class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md mr-2">Pagar y Ver Factura</button>
+                <button onclick="clearCart()" class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition duration-300 shadow-md">Vaciar Carrito</button>
             </div>
-            <button onclick="checkout()" class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md mr-2">Pagar</button>
-            <button onclick="clearCart()" class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition duration-300 shadow-md">Vaciar Carrito</button>
+            <div id="invoice-view-content" style="display: none;">
+                </div>
         </div>
     </div>
 
@@ -223,10 +246,37 @@
             localStorage.setItem('shoppingCart', JSON.stringify(cart));
         }
 
-        // En la página principal, no hay botones "Añadir al Carrito"
-        // por lo que esta función no es necesaria aquí.
-        // Si en el futuro agregas productos a la página principal,
-        // necesitarás implementar esta función con inputs de cantidad.
+        // Esta función no es necesaria en index.html porque no hay botones para "Añadir al Carrito" aquí.
+        // Si más adelante decides añadir productos directamente en el index, necesitarías esta función.
+        // function addToCart(name, price, quantityId) { /* ... */ }
+
+        // Función para eliminar una cantidad específica de un producto del carrito
+        function removeQuantityFromCart(itemName, quantityInputId) {
+            const quantityInput = document.getElementById(quantityInputId);
+            let quantityToRemove = parseInt(quantityInput.value);
+
+            if (isNaN(quantityToRemove) || quantityToRemove <= 0) {
+                alert('Por favor, introduce una cantidad válida para eliminar.');
+                return;
+            }
+
+            const itemIndex = cart.findIndex(item => item.name === itemName);
+
+            if (itemIndex > -1) {
+                if (cart[itemIndex].quantity <= quantityToRemove) {
+                    // Si la cantidad a eliminar es mayor o igual a la cantidad actual, eliminar el artículo completo
+                    cart.splice(itemIndex, 1);
+                } else {
+                    // De lo contrario, restar la cantidad especificada
+                    cart[itemIndex].quantity -= quantityToRemove;
+                }
+                saveCart();
+                updateCartDisplay();
+            } else {
+                alert('El producto no se encuentra en el carrito.');
+            }
+        }
+
 
         function updateCartDisplay() {
             const cartCountElement = document.getElementById('cart-count');
@@ -234,33 +284,50 @@
             const cartTotalElement = document.getElementById('cart-total');
 
             let totalItems = 0;
-            let totalPrice = 0;
+            let totalPriceValue = 0;
             cartItemsElement.innerHTML = ''; // Limpiar el contenido actual del carrito
 
             if (cart.length === 0) {
                 cartItemsElement.innerHTML = '<p class="text-gray-600">El carrito está vacío.</p>';
             } else {
-                cart.forEach(item => {
+                cart.forEach((item, index) => {
+                    // Generar un ID único para el campo de cantidad a eliminar de cada artículo
+                    const removeQuantityInputId = `remove-${item.name.replace(/\s/g, '')}-qty`;
+
                     const itemElement = document.createElement('div');
-                    itemElement.classList.add('flex', 'justify-between', 'items-center', 'py-2', 'border-b', 'border-gray-200');
+                    itemElement.classList.add('flex', 'flex-col', 'sm:flex-row', 'justify-between', 'items-center', 'py-2', 'border-b', 'border-gray-200');
                     itemElement.innerHTML = `
-                        <span class="text-gray-700">${item.name} (${item.quantity} kg)</span>
-                        <span class="font-semibold">$${(item.price * item.quantity).toLocaleString('es-AR')}</span>
+                        <span class="text-gray-700 mb-2 sm:mb-0">${item.name} (${item.quantity} kg)</span>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-semibold">$${(item.price * item.quantity).toLocaleString('es-AR')}</span>
+                            <input type="number" id="${removeQuantityInputId}" value="1" min="1" max="${item.quantity}" class="w-16 p-1 border rounded-md text-center text-gray-800">
+                            <button onclick="removeQuantityFromCart('${item.name}', '${removeQuantityInputId}')" class="bg-red-400 text-white px-2 py-1 rounded-full text-xs hover:bg-red-500 transition duration-300">Eliminar</button>
+                        </div>
                     `;
                     cartItemsElement.appendChild(itemElement);
                     totalItems += item.quantity;
-                    totalPrice += item.price * item.quantity;
+                    totalPriceValue += item.price * item.quantity;
                 });
             }
 
             cartCountElement.textContent = totalItems;
-            cartTotalElement.textContent = `Total: $${totalPrice.toLocaleString('es-AR')}`;
+            cartTotalElement.textContent = `Total: $${totalPriceValue.toLocaleString('es-AR')}`;
         }
 
         function openCartModal() {
             const cartModal = document.getElementById('cart-modal');
+            const cartViewContent = document.getElementById('cart-view-content');
+            const invoiceViewContent = document.getElementById('invoice-view-content');
+            const modalTitle = document.querySelector('#modal-content h2');
+
+            // Mostrar la vista del carrito por defecto al abrir el modal
+            cartViewContent.style.display = 'block';
+            invoiceViewContent.style.display = 'none';
+            modalTitle.textContent = 'Tu Carrito'; // Asegurarse de que el título sea el del carrito
+            document.querySelector('.close-button').classList.remove('hide-on-print'); // Mostrar botón de cierre
+
             cartModal.style.display = 'flex'; // Mostrar el modal
-            updateCartDisplay(); // Asegurar que el display se actualice al abrir manualmente
+            updateCartDisplay(); // Asegurarse de que la visualización se actualice cuando se abre manualmente
         }
 
         function closeCartModal() {
@@ -272,7 +339,106 @@
             cart = [];
             saveCart();
             updateCartDisplay();
-            // closeCartModal(); // Opcional: cerrar el modal después de vaciar, actualmente se mantiene abierto
+            // El modal se mantiene abierto en la vista de factura o carrito, dependiendo de la acción
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío. Por favor, añade productos antes de pagar.');
+                return;
+            }
+
+            const paymentMethod = document.getElementById('payment-method').value;
+            const customerEmail = document.getElementById('customer-email').value;
+
+            if (!paymentMethod) {
+                alert('Por favor, selecciona un método de pago.');
+                return;
+            }
+
+            // Generar la factura en HTML
+            const invoiceHtml = generateInvoiceHtml(customerEmail, paymentMethod);
+
+            // Mostrar la factura en el modal
+            const cartViewContent = document.getElementById('cart-view-content');
+            const invoiceViewContent = document.getElementById('invoice-view-content');
+            const modalTitle = document.querySelector('#modal-content h2');
+
+            // Ocultar la vista del carrito y mostrar la vista de la factura
+            cartViewContent.style.display = 'none';
+            invoiceViewContent.innerHTML = invoiceHtml;
+            invoiceViewContent.style.display = 'block';
+
+            // Actualizar el título del modal
+            modalTitle.textContent = 'Factura de tu Compra';
+
+            // Ocultar el botón de cerrar en la vista de impresión
+            document.querySelector('.close-button').classList.add('hide-on-print');
+
+            // Limpiar el carrito después de "finalizar" la compra
+            clearCart();
+        }
+
+        // Función auxiliar para generar el HTML de la factura
+        function generateInvoiceHtml(email, paymentMethod) {
+            let itemsHtml = '';
+            let totalAmount = 0;
+            const purchaseDate = new Date().toLocaleDateString('es-AR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            // Se usa una copia temporal del carrito para generar la factura
+            // Ya que clearCart() se llama inmediatamente después de generar el HTML.
+            // Esto asegura que la factura muestre los items correctos incluso si el carrito se vacía.
+            const currentCartItems = [...cart]; // Copia del array cart antes de vaciarlo.
+
+            currentCartItems.forEach(item => {
+                const subtotal = item.price * item.quantity;
+                totalAmount += subtotal;
+                itemsHtml += `
+                    <div class="flex justify-between py-1 border-b border-gray-100">
+                        <span>${item.name} (${item.quantity} kg)</span>
+                        <span>$${subtotal.toLocaleString('es-AR')}</span>
+                    </div>
+                `;
+            });
+
+            return `
+                <div class="invoice-container p-4">
+                    <h2 class="text-3xl font-bold text-green-700 mb-4 text-center">¡Gracias por tu compra!</h2>
+                    <p class="text-gray-700 mb-2">Fecha: ${purchaseDate}</p>
+                    ${email ? `<p class="text-gray-700 mb-2">Email: <span class="font-semibold">${email}</span></p>` : ''}
+                    <div class="border rounded-md p-4 mb-4">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Detalle de la Compra</h3>
+                        ${itemsHtml}
+                        <div class="flex justify-between font-bold text-xl text-green-800 mt-4">
+                            <span>Total:</span>
+                            <span>$${totalAmount.toLocaleString('es-AR')}</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">Método de Pago: <span class="font-semibold">${paymentMethodText(paymentMethod)}</span></p>
+                    <p class="text-gray-600 text-sm text-center">¡Esperamos verte de nuevo pronto en La Verdulería de Teto!</p>
+                    <div class="mt-6 flex justify-center space-x-4 hide-on-print">
+                        <button onclick="window.print()" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300 shadow-md">Imprimir Factura</button>
+                        <button onclick="closeCartModal()" class="bg-gray-500 text-white px-6 py-2 rounded-full hover:bg-gray-600 transition duration-300 shadow-md">Cerrar</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Función auxiliar para obtener el texto del método de pago
+        function paymentMethodText(method) {
+            switch (method) {
+                case 'credit-card': return 'Tarjeta de Crédito';
+                case 'debit-card': return 'Tarjeta de Débito';
+                case 'mercado-pago': return 'Mercado Pago';
+                case 'cash': return 'Efectivo';
+                default: return 'No especificado';
+            }
         }
     </script>
 </body>
