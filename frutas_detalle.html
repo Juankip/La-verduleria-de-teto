@@ -240,14 +240,25 @@
     <!-- Modal del Carrito -->
     <div id="cart-modal" class="modal hidden">
         <div class="modal-content">
-            <span class="close-button" onclick="closeCartModal()">&times;</span>
+            <span class="close-button" onclick="closeCartModal()">×</span>
             <h2 class="text-2xl font-bold text-green-700 mb-4">Tu Carrito</h2>
             <div id="cart-items" class="mb-4">
-                <!-- Los ítems del carrito se renderizarán aquí -->
-            </div>
+                </div>
             <div id="cart-total" class="text-xl font-bold text-gray-800 mb-4">
                 Total: $0
             </div>
+
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Método de Pago</h3>
+                <select id="payment-method" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                    <option value="">Selecciona un método de pago</option>
+                    <option value="credit-card">Tarjeta de Crédito</option>
+                    <option value="debit-card">Tarjeta de Débito</option>
+                    <option value="mercado-pago">Mercado Pago</option>
+                    <option value="cash">Efectivo</option>
+                </select>
+            </div>
+            <button onclick="checkout()" class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md mr-2">Pagar</button>
             <button onclick="clearCart()" class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition duration-300 shadow-md">Vaciar Carrito</button>
         </div>
     </div>
@@ -420,6 +431,40 @@
                     product.style.display = 'none';
                 }
             }
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío. Por favor, añade productos antes de pagar.');
+                return;
+            }
+
+            const paymentMethod = document.getElementById('payment-method').value;
+
+            if (!paymentMethod) {
+                alert('Por favor, selecciona un método de pago.');
+                return;
+            }
+
+            // Simular el procesamiento del pago basado en el método seleccionado
+            let message = `Procesando pago con ${paymentMethod.replace('-', ' ')}...\n`;
+            message += `Total a pagar: $${totalPrice().toLocaleString('es-AR')}`;
+
+            alert(message); // Puedes reemplazar esto con una notificación de UI más sofisticada
+
+            // Después de un "pago" exitoso, vaciar el carrito
+            clearCart();
+            closeCartModal(); // Cerrar el modal después de finalizar la compra
+            alert('¡Gracias por tu compra! El pago ha sido procesado y tu carrito ha sido vaciado.');
+        }
+
+        // Función auxiliar para obtener el precio total
+        function totalPrice() {
+            let total = 0;
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+            });
+            return total;
         }
     </script>
 </body>
