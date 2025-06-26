@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Verdulería de Teto</title>
+    <title>La Verdulería de Teto - Frutas y Verduras Frescas a tu Puerta</title>
+    
+    <meta name="description" content="La Verdulería de Teto te ofrece las frutas y verduras más frescas y de temporada. Calidad, frescura y el mejor servicio a domicilio en Buenos Aires.">
+    <meta property="og:title" content="La Verdulería de Teto - Tu Mejor Opción en Frescos">
+    <meta property="og:description" content="Descubre nuestra amplia selección de frutas y verduras frescas y saludables. Servicio a domicilio en Buenos Aires.">
+    <meta property="og:image" content="URL_A_IMAGEN_DE_PREVISUALIZACION.jpg"> <meta property="og:url" content="URL_DE_TU_PAGINA_INDEX.html"> <meta property="og:type" content="website">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -76,6 +81,12 @@
                 display: none;
             }
         }
+        /* Estilos para los mensajes de validación */
+        .error-message {
+            color: red;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased">
@@ -93,7 +104,7 @@
                     <li><a href="#reseñas" class="hover:text-green-200 transition duration-300 text-lg">Reseñas</a></li>
                     <li><a href="#multimedia" class="hover:text-green-200 transition duration-300 text-lg">Multimedia</a></li>
                     <li>
-                        <button onclick="openCartModal()" class="flex items-center space-x-1 hover:text-green-200 transition duration-300 text-lg">
+                        <button id="open-cart-btn" class="flex items-center space-x-1 hover:text-green-200 transition duration-300 text-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L22 4H5.5"/></svg>
                             <span id="cart-count" class="bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1">0</span>
                         </button>
@@ -112,34 +123,32 @@
 
         <section id="productos" class="productos bg-white p-8 rounded-lg shadow-md mb-8">
             <h2 class="text-3xl font-bold text-green-700 mb-6 text-center">Nuestros Productos</h2>
-            <div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="card bg-green-50 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-                        <h3 class="text-2xl font-semibold text-green-800 mb-3">Naranjas Frescas</h3>
-                        <img src="./Multimedia/Teto_orange.png" alt="Naranjas" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-green-300">
-                        <p class="text-gray-700 mb-4">Jugosas naranjas, perfectas para jugos y postres.</p>
-                        <a href="./frutas_detalle.html" class="inline-block bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Ver más</a>
-                    </div>
-                    <div class="card bg-green-50 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-                        <h3 class="text-2xl font-semibold text-green-800 mb-3">Bananas</h3>
-                        <img src="./Multimedia/Teto_banana.png" alt="Bananas" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-green-300">
-                        <p class="text-gray-700 mb-4">Deliciosas bananas, ideales para un snack rápido.</p>
-                        <a href="./frutas_detalle.html" class="inline-block bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Ver más</a>
-                    </div>
-                    <div class="card bg-green-50 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-                        <h3 class="text-2xl font-semibold text-green-800 mb-3">Manzanas Rojas</h3>
-                        <img src="./Multimedia/Manzana.png" alt="Manzanas" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-green-300">
-                        <p class="text-gray-700 mb-4">Manzanas dulces y saludables, ideales para un snack.</p>
-                        <a href="./frutas_detalle.html" class="inline-block bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Ver más</a>
-                    </div>
-                    <div class="card bg-green-50 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-                        <h3 class="text-2xl font-semibold text-green-800 mb-3">Sandías Dulces</h3>
-                        <img src="./Multimedia/Teto_watermelon.png" alt="Sandías" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-green-300">
-                        <p class="text-gray-700 mb-4">Sandías refrescantes, perfectas para el verano.</p>
-                        <a href="./frutas_detalle.html" class="inline-block bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Ver más</a>
-                    </div>
+            <div id="product-cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card bg-green-50 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
+                    <h3 class="text-2xl font-semibold text-green-800 mb-3">Naranjas Frescas</h3>
+                    <img src="./Multimedia/Teto_orange.png" alt="Naranjas" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-green-300">
+                    <p class="text-gray-700 mb-4">Jugosas naranjas, perfectas para jugos y postres.</p>
+                    <a href="./frutas_detalle.html" class="inline-block bg-green-600 text-white px-6 py-2 rounded-full text-lg font-semibold hover:bg-green-700 transition duration-300 shadow-md">Ver más</a>
                 </div>
-            </div>
+                <div class="card bg-green-50 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
+                    <h3 class="text-2xl font-semibold text-green-800 mb-3">Bananas</h3>
+                    <img src="./Multimedia/Teto_banana.png" alt="Bananas" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-green-300">
+                    <p class="text-gray-700 mb-4">Deliciosas bananas, ideales para un snack rápido.</p>
+                    <a href="./frutas_detalle.html" class="inline-block bg-green-600 text-white px-6 py-2 rounded-full text-lg font-semibold hover:bg-green-700 transition duration-300 shadow-md">Ver más</a>
+                </div>
+                <div class="card bg-green-50 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
+                    <h3 class="text-2xl font-semibold text-green-800 mb-3">Manzanas Rojas</h3>
+                    <img src="./Multimedia/Manzana.png" alt="Manzanas" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-green-300">
+                    <p class="text-gray-700 mb-4">Manzanas dulces y saludables, ideales para un snack.</p>
+                    <a href="./frutas_detalle.html" class="inline-block bg-green-600 text-white px-6 py-2 rounded-full text-lg font-semibold hover:bg-green-700 transition duration-300 shadow-md">Ver más</a>
+                </div>
+                <div class="card bg-green-50 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
+                    <h3 class="text-2xl font-semibold text-green-800 mb-3">Sandías Dulces</h3>
+                    <img src="./Multimedia/Teto_watermelon.png" alt="Sandías" class="w-48 h-48 object-cover rounded-full mx-auto mb-4 border-4 border-green-300">
+                    <p class="text-gray-700 mb-4">Sandías refrescantes, perfectas para el verano.</p>
+                    <a href="./frutas_detalle.html" class="inline-block bg-green-600 text-white px-6 py-2 rounded-full text-lg font-semibold hover:bg-green-700 transition duration-300 shadow-md">Ver más</a>
+                </div>
+                </div>
         </section>
 
         <section id="reseñas" class="reseñas bg-white p-8 rounded-lg shadow-md mb-8">
@@ -191,11 +200,13 @@
     </main>
 
     <footer class="bg-green-700 text-white p-4 text-center mt-8 rounded-t-lg">
-        <p>© 2025 La Verdulería Teto. Todos los derechos reservados.</p>
+        <p>© 2025 La Verdulería de Teto. Todos los derechos reservados.</p>
     </footer>
 
     <div id="cart-modal" class="modal hidden">
-        <div class="modal-content" id="modal-content"> <span class="close-button hide-on-print" onclick="closeCartModal()">×</span> <div id="cart-view-content">
+        <div class="modal-content" id="modal-content">
+            <span class="close-button hide-on-print" id="close-cart-modal-btn">×</span>
+            <div id="cart-view-content">
                 <h2 class="text-2xl font-bold text-green-700 mb-4">Tu Carrito</h2>
                 <div id="cart-items" class="mb-4">
                     </div>
@@ -206,6 +217,7 @@
                 <div class="mb-6">
                     <h3 class="text-xl font-semibold text-gray-700 mb-2">Correo Electrónico (opcional para tu registro)</h3>
                     <input type="email" id="customer-email" placeholder="Introduce tu email" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                    <p id="email-error" class="error-message"></p>
                 </div>
 
                 <div class="mb-6">
@@ -217,229 +229,18 @@
                         <option value="mercado-pago">Mercado Pago</option>
                         <option value="cash">Efectivo</option>
                     </select>
+                    <p id="payment-error" class="error-message"></p>
                 </div>
-                <button onclick="checkout()" class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md mr-2">Pagar y Ver Factura</button>
-                <button onclick="clearCart()" class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition duration-300 shadow-md">Vaciar Carrito</button>
+                <button id="checkout-btn" class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md mr-2">Pagar y Ver Factura</button>
+                <button id="clear-cart-btn" class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition duration-300 shadow-md">Vaciar Carrito</button>
             </div>
             <div id="invoice-view-content" style="display: none;">
                 </div>
         </div>
     </div>
 
-    <script>
-        let cart = []; // Array para almacenar los ítems del carrito
-
-        // Cargar el carrito desde localStorage al iniciar
-        window.onload = function() {
-            loadCart();
-            updateCartDisplay();
-        };
-
-        function loadCart() {
-            const storedCart = localStorage.getItem('shoppingCart');
-            if (storedCart) {
-                cart = JSON.parse(storedCart);
-            }
-        }
-
-        function saveCart() {
-            localStorage.setItem('shoppingCart', JSON.stringify(cart));
-        }
-
-        // Esta función no es necesaria en index.html porque no hay botones para "Añadir al Carrito" aquí.
-        // Si más adelante decides añadir productos directamente en el index, necesitarías esta función.
-        // function addToCart(name, price, quantityId) { /* ... */ }
-
-        // Función para eliminar una cantidad específica de un producto del carrito
-        function removeQuantityFromCart(itemName, quantityInputId) {
-            const quantityInput = document.getElementById(quantityInputId);
-            let quantityToRemove = parseInt(quantityInput.value);
-
-            if (isNaN(quantityToRemove) || quantityToRemove <= 0) {
-                alert('Por favor, introduce una cantidad válida para eliminar.');
-                return;
-            }
-
-            const itemIndex = cart.findIndex(item => item.name === itemName);
-
-            if (itemIndex > -1) {
-                if (cart[itemIndex].quantity <= quantityToRemove) {
-                    // Si la cantidad a eliminar es mayor o igual a la cantidad actual, eliminar el artículo completo
-                    cart.splice(itemIndex, 1);
-                } else {
-                    // De lo contrario, restar la cantidad especificada
-                    cart[itemIndex].quantity -= quantityToRemove;
-                }
-                saveCart();
-                updateCartDisplay();
-            } else {
-                alert('El producto no se encuentra en el carrito.');
-            }
-        }
-
-
-        function updateCartDisplay() {
-            const cartCountElement = document.getElementById('cart-count');
-            const cartItemsElement = document.getElementById('cart-items');
-            const cartTotalElement = document.getElementById('cart-total');
-
-            let totalItems = 0;
-            let totalPriceValue = 0;
-            cartItemsElement.innerHTML = ''; // Limpiar el contenido actual del carrito
-
-            if (cart.length === 0) {
-                cartItemsElement.innerHTML = '<p class="text-gray-600">El carrito está vacío.</p>';
-            } else {
-                cart.forEach((item, index) => {
-                    // Generar un ID único para el campo de cantidad a eliminar de cada artículo
-                    const removeQuantityInputId = `remove-${item.name.replace(/\s/g, '')}-qty`;
-
-                    const itemElement = document.createElement('div');
-                    itemElement.classList.add('flex', 'flex-col', 'sm:flex-row', 'justify-between', 'items-center', 'py-2', 'border-b', 'border-gray-200');
-                    itemElement.innerHTML = `
-                        <span class="text-gray-700 mb-2 sm:mb-0">${item.name} (${item.quantity} kg)</span>
-                        <div class="flex items-center space-x-2">
-                            <span class="font-semibold">$${(item.price * item.quantity).toLocaleString('es-AR')}</span>
-                            <input type="number" id="${removeQuantityInputId}" value="1" min="1" max="${item.quantity}" class="w-16 p-1 border rounded-md text-center text-gray-800">
-                            <button onclick="removeQuantityFromCart('${item.name}', '${removeQuantityInputId}')" class="bg-red-400 text-white px-2 py-1 rounded-full text-xs hover:bg-red-500 transition duration-300">Eliminar</button>
-                        </div>
-                    `;
-                    cartItemsElement.appendChild(itemElement);
-                    totalItems += item.quantity;
-                    totalPriceValue += item.price * item.quantity;
-                });
-            }
-
-            cartCountElement.textContent = totalItems;
-            cartTotalElement.textContent = `Total: $${totalPriceValue.toLocaleString('es-AR')}`;
-        }
-
-        function openCartModal() {
-            const cartModal = document.getElementById('cart-modal');
-            const cartViewContent = document.getElementById('cart-view-content');
-            const invoiceViewContent = document.getElementById('invoice-view-content');
-            const modalTitle = document.querySelector('#modal-content h2');
-
-            // Mostrar la vista del carrito por defecto al abrir el modal
-            cartViewContent.style.display = 'block';
-            invoiceViewContent.style.display = 'none';
-            modalTitle.textContent = 'Tu Carrito'; // Asegurarse de que el título sea el del carrito
-            document.querySelector('.close-button').classList.remove('hide-on-print'); // Mostrar botón de cierre
-
-            cartModal.style.display = 'flex'; // Mostrar el modal
-            updateCartDisplay(); // Asegurarse de que la visualización se actualice cuando se abre manualmente
-        }
-
-        function closeCartModal() {
-            const cartModal = document.getElementById('cart-modal');
-            cartModal.style.display = 'none'; // Ocultar el modal
-        }
-
-        function clearCart() {
-            cart = [];
-            saveCart();
-            updateCartDisplay();
-            // El modal se mantiene abierto en la vista de factura o carrito, dependiendo de la acción
-        }
-
-        function checkout() {
-            if (cart.length === 0) {
-                alert('Tu carrito está vacío. Por favor, añade productos antes de pagar.');
-                return;
-            }
-
-            const paymentMethod = document.getElementById('payment-method').value;
-            const customerEmail = document.getElementById('customer-email').value;
-
-            if (!paymentMethod) {
-                alert('Por favor, selecciona un método de pago.');
-                return;
-            }
-
-            // Generar la factura en HTML
-            const invoiceHtml = generateInvoiceHtml(customerEmail, paymentMethod);
-
-            // Mostrar la factura en el modal
-            const cartViewContent = document.getElementById('cart-view-content');
-            const invoiceViewContent = document.getElementById('invoice-view-content');
-            const modalTitle = document.querySelector('#modal-content h2');
-
-            // Ocultar la vista del carrito y mostrar la vista de la factura
-            cartViewContent.style.display = 'none';
-            invoiceViewContent.innerHTML = invoiceHtml;
-            invoiceViewContent.style.display = 'block';
-
-            // Actualizar el título del modal
-            modalTitle.textContent = 'Factura de tu Compra';
-
-            // Ocultar el botón de cerrar en la vista de impresión
-            document.querySelector('.close-button').classList.add('hide-on-print');
-
-            // Limpiar el carrito después de "finalizar" la compra
-            clearCart();
-        }
-
-        // Función auxiliar para generar el HTML de la factura
-        function generateInvoiceHtml(email, paymentMethod) {
-            let itemsHtml = '';
-            let totalAmount = 0;
-            const purchaseDate = new Date().toLocaleDateString('es-AR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-
-            // Se usa una copia temporal del carrito para generar la factura
-            // Ya que clearCart() se llama inmediatamente después de generar el HTML.
-            // Esto asegura que la factura muestre los items correctos incluso si el carrito se vacía.
-            const currentCartItems = [...cart]; // Copia del array cart antes de vaciarlo.
-
-            currentCartItems.forEach(item => {
-                const subtotal = item.price * item.quantity;
-                totalAmount += subtotal;
-                itemsHtml += `
-                    <div class="flex justify-between py-1 border-b border-gray-100">
-                        <span>${item.name} (${item.quantity} kg)</span>
-                        <span>$${subtotal.toLocaleString('es-AR')}</span>
-                    </div>
-                `;
-            });
-
-            return `
-                <div class="invoice-container p-4">
-                    <h2 class="text-3xl font-bold text-green-700 mb-4 text-center">¡Gracias por tu compra!</h2>
-                    <p class="text-gray-700 mb-2">Fecha: ${purchaseDate}</p>
-                    ${email ? `<p class="text-gray-700 mb-2">Email: <span class="font-semibold">${email}</span></p>` : ''}
-                    <div class="border rounded-md p-4 mb-4">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Detalle de la Compra</h3>
-                        ${itemsHtml}
-                        <div class="flex justify-between font-bold text-xl text-green-800 mt-4">
-                            <span>Total:</span>
-                            <span>$${totalAmount.toLocaleString('es-AR')}</span>
-                        </div>
-                    </div>
-                    <p class="text-gray-700 mb-4">Método de Pago: <span class="font-semibold">${paymentMethodText(paymentMethod)}</span></p>
-                    <p class="text-gray-600 text-sm text-center">¡Esperamos verte de nuevo pronto en La Verdulería de Teto!</p>
-                    <div class="mt-6 flex justify-center space-x-4 hide-on-print">
-                        <button onclick="window.print()" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300 shadow-md">Imprimir Factura</button>
-                        <button onclick="closeCartModal()" class="bg-gray-500 text-white px-6 py-2 rounded-full hover:bg-gray-600 transition duration-300 shadow-md">Cerrar</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Función auxiliar para obtener el texto del método de pago
-        function paymentMethodText(method) {
-            switch (method) {
-                case 'credit-card': return 'Tarjeta de Crédito';
-                case 'debit-card': return 'Tarjeta de Débito';
-                case 'mercado-pago': return 'Mercado Pago';
-                case 'cash': return 'Efectivo';
-                default: return 'No especificado';
-            }
-        }
-    </script>
+    <script src="./script.js"></script>
+</body>
+</html>
 </body>
 </html>
