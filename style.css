@@ -105,7 +105,7 @@ main .container {
     margin: 0 auto;
 }
 
-/* Products section */
+/* Products section (used in index.html) */
 .productos {
     background-color: white;
     padding: 2rem;
@@ -128,7 +128,8 @@ main .container {
     gap: 1.5rem;
 }
 
-.card {
+/* Specific card styles for products section in index.html */
+.productos .card { /* Targeting cards within .productos */
     background-color: #ECFDF5; /* Green-50 */
     padding: 1.5rem;
     border-radius: 0.5rem;
@@ -137,19 +138,19 @@ main .container {
     text-align: center;
 }
 
-.card:hover {
+.productos .card:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     transform: translateY(-5px);
 }
 
-.card h3 {
+.productos .card h3 {
     font-size: 1.5rem;
     font-weight: 600;
     color: #065F46; /* Green-800 */
     margin-bottom: 0.75rem;
 }
 
-.card img {
+.productos .card img {
     width: 12rem; /* w-48 */
     height: 12rem; /* h-48 */
     object-fit: cover;
@@ -158,12 +159,12 @@ main .container {
     border: 4px solid #A7F3D0; /* Green-300 */
 }
 
-.card p {
+.productos .card p {
     color: #4B5563; /* Gray-700 */
     margin-bottom: 1rem;
 }
 
-.card button {
+.productos .card button {
     background-color: #059669; /* Green-600 */
     color: white;
     padding: 0.75rem 1.5rem;
@@ -174,10 +175,59 @@ main .container {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.card button:hover {
+.productos .card button:hover {
     background-color: #047857; /* Green-700 */
     transform: translateY(-2px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* NEW: Styles for "Frutas y Precios" section (frutas_detalle.html) */
+/* This section has its own specific styling that uses yellow colors */
+.frutas-precios {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.frutas-precios h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #10B981; /* Green-700 */
+    margin-bottom: 1.5rem;
+    /* text-align: center; - Removed as per flex layout in HTML */
+}
+
+/* Styling for cards within frutas-precios */
+.frutas-precios .card {
+    background-color: #FFFBEB; /* Yellow-50, as seen in your frutas_detalle.html */
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.frutas-precios .card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+}
+
+.frutas-precios .card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #92400E; /* Yellow-800, as seen in your frutas_detalle.html */
+    margin-bottom: 0.75rem;
+}
+
+.frutas-precios .card img {
+    width: 12rem; /* w-48 */
+    height: 12rem; /* h-48 */
+    object-fit: cover;
+    border-radius: 9999px; /* rounded-full */
+    margin: 0 auto 1rem;
+    border: 4px solid #FCD34D; /* Yellow-300, as seen in your frutas_detalle.html */
 }
 
 /* Contact section */
