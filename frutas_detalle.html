@@ -270,19 +270,18 @@
     <div id="cart-modal" class="fixed inset-0 bg-gray-600 bg-opacity-75 flex justify-center items-center z-50 hidden">
         <div id="modal-content" class="bg-white p-6 rounded-lg shadow-xl m-4 max-w-lg w-full relative transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
             <button id="close-cart-modal-btn" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-3xl font-bold">
-                &times;
+                ×
             </button>
             <h2 class="text-2xl font-bold text-green-700 mb-4">Tu Carrito</h2>
             
             <div id="cart-view-content" style="display: block;">
                 <div id="cart-items" class="border-b border-gray-200 mb-4 max-h-60 overflow-y-auto">
-                </div>
+                    </div>
                 <p id="cart-total" class="text-right font-bold text-lg mb-4"></p>
                 <div class="flex flex-col space-y-4">
                     <label for="customer-email" class="text-sm font-medium text-gray-700">Correo Electrónico:</label>
                     <input type="email" id="customer-email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" placeholder="ejemplo@correo.com">
                     <span id="email-error" class="text-red-500 text-sm"></span>
-    
                     <label for="payment-method" class="text-sm font-medium text-gray-700">Método de Pago:</label>
                     <select id="payment-method" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
                         <option value="">Selecciona un método de pago</option>
