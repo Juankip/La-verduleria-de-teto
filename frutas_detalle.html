@@ -8,55 +8,18 @@
     <meta name="description" content="Explora nuestro catálogo completo de frutas frescas y sus precios por kilogramo en La Verdulería de Teto. Encuentra manzanas, peras, uvas, duraznos y más.">
     <meta property="og:title" content="Catálogo de Frutas y Precios - La Verdulería de Teto">
     <meta property="og:description" content="Descubre la variedad y frescura de nuestras frutas. Añade tus favoritas al carrito y haz tu pedido fácilmente.">
-    <meta property="og:image" content="URL_A_IMAGEN_GENERAL_DE_FRUTAS.jpg"> <meta property="og:url" content="URL_DE_TU_PAGINA_FRUTAS_DETALLE.html"> <meta property="og:type" content="product.group"> 
+    <meta property="og:image" content="URL_A_IMAGEN_GENERAL_DE_FRUTAS.jpg">
+    <meta property="og:url" content="URL_DE_TU_PAGINA_FRUTAS_DETALLE.html">
+    <meta property="og:type" content="product.group">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
     <style>
         body {
             font-family: 'Inter', sans-serif;
             padding-top: 4rem; /* Ajusta este valor según la altura real de tu header */
-        }
-        /* Estilos para el modal del carrito (si lo mantienes aquí o lo mueves a un CSS externo) */
-        .modal {
-            display: none; /* Oculto por defecto */
-            position: fixed;
-            z-index: 100;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4); /* Fondo semi-transparente */
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            position: relative;
-            animation: fadeIn 0.3s;
-        }
-        .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close-button:hover,
-        .close-button:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         /* Estilos adicionales para impresión */
         @media print {
@@ -81,6 +44,12 @@
                 display: none;
             }
         }
+        /* Estilos para los mensajes de validación */
+        .error-message {
+            color: red;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased">
@@ -90,26 +59,25 @@
                 <img src="./Multimedia/Teto_pear.png" alt="Logo de La Verdulería de Teto" class="h-12 w-12 object-cover rounded-full">
                 <h1 class="text-4xl font-bold mb-2 md:mb-0">La Verdulería de Teto</h1>
             </a>
-            <nav>
+            <nav class="flex items-center space-x-4 mt-2 md:mt-0">
                 <ul class="flex space-x-4">
-                    <li><a href="./index.html#inicio" class="hover:text-green-200 transition duration-300 text-lg">Inicio</a></li>
-                    <li><a href="./index.html#productos" class="hover:text-green-200 transition duration-300 text-lg">Productos</a></li>
+                    <li><a href="./index.html" class="hover:text-green-200 transition duration-300 text-lg">Inicio</a></li>
+                    <li><a href="./frutas_detalle.html" class="hover:text-green-200 transition duration-300 text-lg">Productos</a></li>
                     <li><a href="./contacto_detalle.html" class="hover:text-green-200 transition duration-300 text-lg">Contacto</a></li>
-                    <li><a href="./index.html#reseñas" class="hover:text-green-200 transition duration-300 text-lg">Reseñas</a></li>
-                    <li><a href="./index.html#multimedia" class="hover:text-green-200 transition duration-300 text-lg">Multimedia</a></li>
-                    <li>
-                        <button id="open-cart-btn" class="flex items-center space-x-1 hover:text-green-200 transition duration-300 text-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L22 4H5.5"/></svg>
-                            <span id="cart-count" class="bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1">0</span>
-                        </button>
-                    </li>
+                    <li><a href="./reseñas.html" class="hover:text-green-200 transition duration-300 text-lg">Reseñas</a></li>
                 </ul>
+                <button id="open-cart-btn" class="bg-green-600 p-2 rounded-full hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 relative transition-all duration-300">
+                    <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.182 1.769.707 1.769H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span id="cart-count" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">0</span>
+                </button>
             </nav>
         </div>
     </header>
 
-    <main class="container mx-auto px-4 py-8">
-        <section id="frutas-precios" class="frutas-precios bg-white p-8 rounded-lg shadow-md mb-8">
+    <main class="container mx-auto px-4 py-8 mt-16">
+        <section class="frutas-precios bg-white p-8 rounded-lg shadow-md mb-8">
             <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0">
                 <h2 class="text-3xl font-bold text-green-700">Frutas Frescas y Precios por KG</h2>
                 <div class="flex items-center space-x-2">
@@ -293,48 +261,50 @@
                 <p class="text-center text-gray-500 col-span-full">Cargando productos de la API...</p>
             </div>
         </section>
-        </main>
+    </main>
 
-    <footer>
+    <footer class="bg-green-700 text-white p-4 text-center mt-8 rounded-t-lg">
         <p>© 2025 La Verdulería de Teto. Todos los derechos reservados.</p>
     </footer>
 
-    <div id="cart-modal" class="modal hidden">
-        <div class="modal-content" id="modal-content">
-            <span class="close-button hide-on-print" id="close-cart-modal-btn">×</span>
-            <div id="cart-view-content">
-                <h2 class="text-2xl font-bold text-green-700 mb-4">Tu Carrito</h2>
-                <div id="cart-items" class="mb-4">
-                    </div>
-                <div id="cart-total" class="text-xl font-bold text-gray-800 mb-4">
-                    Total: $0
+    <div id="cart-modal" class="fixed inset-0 bg-gray-600 bg-opacity-75 flex justify-center items-center z-50 hidden">
+        <div id="modal-content" class="bg-white p-6 rounded-lg shadow-xl m-4 max-w-lg w-full relative transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
+            <button id="close-cart-modal-btn" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-3xl font-bold">
+                &times;
+            </button>
+            <h2 class="text-2xl font-bold text-green-700 mb-4">Tu Carrito</h2>
+            
+            <div id="cart-view-content" style="display: block;">
+                <div id="cart-items" class="border-b border-gray-200 mb-4 max-h-60 overflow-y-auto">
                 </div>
-
-                <div class="mb-6">
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Correo Electrónico (opcional para tu registro)</h3>
-                    <input type="email" id="customer-email" placeholder="Introduce tu email" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
-                    <p id="email-error" class="error-message"></p>
-                </div>
-
-                <div class="mb-6">
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Método de Pago</h3>
-                    <select id="payment-method" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+                <p id="cart-total" class="text-right font-bold text-lg mb-4"></p>
+                <div class="flex flex-col space-y-4">
+                    <label for="customer-email" class="text-sm font-medium text-gray-700">Correo Electrónico:</label>
+                    <input type="email" id="customer-email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" placeholder="ejemplo@correo.com">
+                    <span id="email-error" class="text-red-500 text-sm"></span>
+    
+                    <label for="payment-method" class="text-sm font-medium text-gray-700">Método de Pago:</label>
+                    <select id="payment-method" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
                         <option value="">Selecciona un método de pago</option>
                         <option value="credit-card">Tarjeta de Crédito</option>
                         <option value="debit-card">Tarjeta de Débito</option>
-                        <option value="mercado-pago">Mercado Pago</option>
+                        <option value="mercado-pago" selected>Mercado Pago</option>
                         <option value="cash">Efectivo</option>
                     </select>
-                    <p id="payment-error" class="error-message"></p>
+                    <span id="payment-error" class="text-red-500 text-sm"></span>
                 </div>
-                <button id="checkout-btn" class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md mr-2">Pagar y Ver Factura</button>
-                <button id="clear-cart-btn" class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition duration-300 shadow-md">Vaciar Carrito</button>
+                
+                <div class="mt-6 flex justify-between space-x-2">
+                    <button id="clear-cart-btn" class="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition duration-300 shadow-md">Vaciar Carrito</button>
+                    <button id="checkout-btn" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition duration-300 shadow-md">Pagar Ahora</button>
+                </div>
             </div>
+    
             <div id="invoice-view-content" style="display: none;">
                 </div>
         </div>
     </div>
-
+    
     <script src="./script.js"></script>
 </body>
 </html>
