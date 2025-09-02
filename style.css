@@ -99,7 +99,7 @@ main .container {
 .hero img {
     width: 100%;
     height: auto;
-    max-width: 96rem; /* max-w-4xl equivalent */
+    max-width: 42rem; /* El ancho máximo se ha cambiado aquí */
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
@@ -310,7 +310,7 @@ main .container {
 .contacto button[type="submit"]:hover {
     background-color: #047857; /* Green-700 */
     transform: scale(1.05);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* Reviews section */
